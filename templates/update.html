@@ -1,0 +1,16 @@
+<html>
+<head>
+    <title>Update Book</title>
+    <link rel="stylesheet" href="{{ url_for('static', filename='style.css') }}">
+</head>
+<body>
+    <h1>✏️ Update Book</h1>
+    <form method="POST">
+        <input type="text" name="author" value="{{ book.author_name }}" required>
+        <input type="text" name="name" value="{{ book.book_name }}" required>
+        <input type="text" name="category" value="{{ book.category }}" required>
+        <button type="submit" class="btn">Update</button>
+        <a href="{{ url_for('home') }}" class="btn back">← Back</a>
+    </form>
+</body>
+</html>

@@ -1,0 +1,46 @@
+<html>
+<head>
+    <title>Borrow/Return History</title>
+    <link rel="stylesheet" href="{{ url_for('static', filename='style.css') }}">
+</head>
+<body>
+    <h1>📖 Borrow & Return History</h1>
+    <h2>Borrowed Books</h2>
+    <table>
+        <tr>
+            <th>ID</th>
+            <th>Book</th>
+            <th>Borrower</th>
+            <th>Date</th>
+        </tr>
+        {% for row in borrowed %}
+        <tr>
+            <td>{{ row.id }}</td>
+            <td>{{ row.book_name }}</td>
+            <td>{{ row.borrower_name }}</td>
+            <td>{{ row.borrow_date }}</td>
+        </tr>
+        {% endfor %}
+    </table>
+
+    <h2>Returned Books</h2>
+    <table>
+        <tr>
+            <th>ID</th>
+            <th>Book</th>
+            <th>Returner</th>
+            <th>Date</th>
+        </tr>
+        {% for row in returned %}
+        <tr>
+            <td>{{ row.id }}</td>
+            <td>{{ row.book_name }}</td>
+            <td>{{ row.returner_name }}</td>
+            <td>{{ row.return_date }}</td>
+        </tr>
+        {% endfor %}
+    </table>
+
+    <a href="{{ url_for('home') }}" class="btn back">← Back to Home</a>
+</body>
+</html>

@@ -1,0 +1,15 @@
+<html>
+<head>
+    <title>Return Book</title>
+    <link rel="stylesheet" href="{{ url_for('static', filename='style.css') }}">
+</head>
+<body>
+    <h1>📤 Return Book</h1>
+    <p><strong>Book:</strong> {{ book.book_name }} by {{ book.author_name }}</p>
+    <form method="POST">
+        <input type="text" name="name" placeholder="Your Name" required>
+        <button type="submit" class="btn">Return</button>
+        <a href="{{ url_for('home') }}" class="btn back">← Back</a>
+    </form>
+</body>
+</html>

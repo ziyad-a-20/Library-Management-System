@@ -1,0 +1,87 @@
+<!DOCTYPE html>
+<html>
+<head>
+    <title>Login</title>
+    <link rel="stylesheet" href="{{ url_for('static', filename='style.css') }}">
+    <style>
+        body {
+    background: linear-gradient(to right, #74ebd5, #ACB6E5);
+    font-family: 'Segoe UI', sans-serif;
+    margin: 0;
+    padding: 0;
+}
+
+.login-container {
+    max-width: 400px;
+    margin: 8% auto;
+    background: rgba(255, 255, 255, 0.15);
+    padding: 40px;
+    border-radius: 15px;
+    box-shadow: 0 8px 30px rgba(0, 0, 0, 0.2);
+    text-align: center;
+    backdrop-filter: blur(10px);
+    color: #fff;
+}
+
+.login-container h2 {
+    margin-bottom: 25px;
+    font-size: 24px;
+}
+
+input[type="text"], input[type="password"] {
+    width: 85%;
+    padding: 12px 15px;
+    margin-bottom: 20px;
+    border: none;
+    border-radius: 10px;
+    outline: none;
+    font-size: 15px;
+}
+
+button {
+    background-color: #4A90E2;
+    color: #fff;
+    padding: 12px 24px;
+    border: none;
+    border-radius: 10px;
+    font-size: 16px;
+    font-weight: 600;
+    cursor: pointer;
+    transition: background 0.3s ease, transform 0.2s ease, box-shadow 0.3s ease;
+    box-shadow: 0 4px 12px rgba(0, 0, 0, 0.1);
+    letter-spacing: 0.5px;
+}
+
+button:hover {
+    background-color: #357ABD;
+    transform: scale(1.03);
+    box-shadow: 0 6px 18px rgba(0, 0, 0, 0.15);
+}
+
+button:active {
+    transform: scale(0.96);
+    background-color: #2F6DA6;
+    box-shadow: 0 3px 10px rgba(0, 0, 0, 0.2);
+}
+
+.error {
+    color: #ffcccc;
+    margin-top: 10px;
+}
+
+    </style>
+</head>
+<body><!-- login.html -->
+    <div class="login-container">
+        <h2>🔐 Login to Digital Library</h2>
+        <form method="POST">
+            <input type="text" name="username" placeholder="📘 Username" required>
+            <input type="password" name="password" placeholder="🔑 Password" required>
+            <button type="submit">Login</button>
+        </form>
+        {% if error %}
+            <p class="error">{{ error }}</p>
+        {% endif %}
+    </div>
+</body>
+</html>

@@ -1,0 +1,95 @@
+<html>
+<head>
+    <title>Library Home</title>
+    <link rel="stylesheet" href="{{ url_for('static', filename='style.css') }}">
+    <style>.logout-container {
+        position: fixed;
+        top: 20px;
+        right: 20px;
+        background: rgba(255, 255, 255, 0.2);
+        padding: 10px 15px;
+        border-radius: 12px;
+        backdrop-filter: blur(10px);
+        color: #333333;
+        font-weight: 500;
+        display: flex;
+        align-items: center;
+        box-shadow: 0 4px 12px rgba(0, 0, 0, 0.2);
+        z-index: 999;
+    }
+    
+    .logout-btn {
+        background-color: #e74c3c;
+        color: white;
+        padding: 8px 16px;
+        margin-left: 10px;
+        border: none;
+        border-radius: 8px;
+        text-decoration: none;
+        font-weight: 600;
+        transition: background 0.3s ease;
+    }
+    
+    .logout-btn:hover {
+        background-color: #c0392b;
+    }
+    </style>
+</head>
+<body> 
+    {% if session.get('username') %}
+  <div class="logout-container">
+    👋 Hello, {{ session['username'] }} |
+    <a href="{{ url_for('logout') }}" class="logout-btn">Logout</a>
+  </div>
+{% endif %}
+
+      <div class="main-content">
+
+          
+          <h1>📚 Digital Book Shelf</h1>
+    <div class="search-container">
+        <form action="{{ url_for('home') }}" method="GET" class="search-form">
+          <input type="text" name="category" placeholder="Search by category..." value="{{ request.args.get('category', '') }}">
+          <button type="submit" aria-label="Search">
+            🔍
+          </button>
+        </form>
+      </div>      
+      {% if session.get('role') == 'admin' %}
+    <a href="{{ url_for('add') }}" class="btn">➕ Add Book</a>
+    <a href="{{ url_for('history') }}" class="btn">📖 View History</a>
+    {% endif %}
+    <table>
+        <tr>
+            <th>ID</th>
+            <th>Author</th>
+            <th>Book</th>
+            <th>Category</th>
+            <th>Status</th>
+            <th>Actions</th>
+        </tr>
+        {% for book in books %}
+        <tr>
+            <td>{{ book.id }}</td>
+            <td>{{ book.author_name }}</td>
+            <td>{{ book.book_name }}</td>
+            <td>{{ book.category }}</td>
+            <td class="{{ 'available' if book.status == 'Available' else 'not-available' }}">{{ book.status }}</td>
+            <td>
+                {% if session.get('role') == 'admin' %}
+                <a href="{{ url_for('update', id=book.id) }}" class="btn">✏️ Edit</a>
+                <a href="{{ url_for('delete', id=book.id) }}" class="btn delete">🗑️ Delete</a>
+                {% elif session.get('role') =='public' %}
+                {% if book.status == 'Available' %}
+                    <a href="{{ url_for('borrow', id=book.id) }}" class="btn">📥 Borrow</a>
+                    {% else %}
+                    <a href="{{ url_for('return_book', id=book.id) }}" class="btn">📤 Return</a>
+                {% endif %}
+                {% endif %}
+            </td>
+        </tr>
+        {% endfor %}
+    </table>
+</div>
+</body>
+</html>
