@@ -1,0 +1,205 @@
+@import url('https://fonts.googleapis.com/css2?family=Poppins:wght@400;600&display=swap');
+
+* {
+    box-sizing: border-box;
+    font-family: "Poppins", sans-serif;
+}
+
+body, html {
+    background: linear-gradient(rgba(0,0,0,0.3), rgba(0,0,0,0.3));
+    margin: 0;
+    background-size: cover;
+    background-position: center;
+    padding: 0;
+    height: 100%;
+    overflow: hidden;
+    font-family: "Poppins",sans-serif;
+}
+
+/* Full background SVG */
+.background {
+    position: relative;
+    width: 100%;
+    height: 100vh;
+    background: url('https://www.transparenttextures.com/patterns/transparent-square.png'),
+                url('/static/image/lib1.jpeg') no-repeat center center/cover;
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    z-index: 0;
+}
+
+/* Optional overlay */
+.overlay {
+    position: absolute;
+    top: 0; left: 0;
+    width: 100%;
+    height: 100%;
+    background: linear-gradient(135deg, rgba(100, 74, 150, 0.6), rgba(255, 255, 255, 0.1));
+    backdrop-filter: blur(2px);
+    z-index: 0;
+}
+
+/* Login Card */
+.login-card {
+    position: relative;
+    z-index: 2;
+    width: 360px;
+    padding: 40px;
+    background: rgba(255, 255, 255, 0.08);
+    backdrop-filter: blur(12px);
+    border-radius: 20px;
+    box-shadow: 0 8px 32px rgba(0, 0, 0, 0.25);
+    color: #fff;
+    animation: fadeIn 1.2s ease;
+}
+
+.login-card h2 {
+    margin-bottom: 35px;
+    font-size: 26px;
+    font-weight: 600;
+    text-align: center;
+}
+
+/* Input Fields */
+.input-box {
+    position: relative;
+    margin-bottom: 25px;
+}
+
+.input-box input {
+    width: 100%;
+    padding: 14px 12px;
+    background: transparent;
+    border: none;
+    border-bottom: 2px solid #fff;
+    color: #fff;
+    font-size: 15px;
+    outline: none;
+}
+
+.input-box label {
+    position: absolute;
+    top: 14px;
+    left: 12px;
+    color: #ccc;
+    pointer-events: none;
+    transition: 0.3s ease all;
+}
+
+.input-box input:focus + label,
+.input-box input:valid + label {
+    transform: translateY(-120%);
+    font-size: 13px;
+    color: #ffffff;
+}
+
+/* Options Row */
+.options {
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    font-size: 14px;
+    margin-bottom: 20px;
+    color: #ddd;
+}
+
+.options a {
+    color: #fff;
+    text-decoration: none;
+    font-weight: 500;
+}
+
+.options a:hover {
+    text-decoration: underline;
+}
+
+/* Submit Button */
+button {
+    width: 100%;
+    padding: 14px;
+    background: #fff;
+    /* color: #654ea3; */
+    color: grey;
+    font-weight: 600;
+    border: 2px solid transparent;
+    border-radius: 10px;
+    cursor: pointer;
+    transition: 0.3s ease;
+}
+
+button:hover {
+    background: transparent;
+    border-color: #fff;
+    color: #fff;
+}
+
+/* Register Prompt */
+.register {
+    margin-top: 20px;
+    font-size: 14px;
+    text-align: center;
+}
+
+.register a {
+    color: #fff;
+    font-weight: 600;
+    text-decoration: underline;
+}
+
+/* Animation */
+@keyframes fadeIn {
+    from { opacity: 0; transform: translateY(30px); }
+    to { opacity: 1; transform: translateY(0); }
+}/* Normal transparent input */
+/* Universal input styles */
+input {
+    background-color: transparent !important;
+    color: #fff !important;
+    border: none;
+    border-bottom: 1px solid #ccc;
+    padding: 12px;
+    outline: none;
+  }
+  
+  /* Chrome/Edge autofill fix */
+  input:-webkit-autofill,
+  input:-webkit-autofill:focus,
+  input:-webkit-autofill:hover,
+  input:-webkit-autofill:active {
+    -webkit-box-shadow: 0 0 0px 1000px transparent inset !important;
+    -webkit-text-fill-color: #fff !important;
+    background-color: transparent !important;
+    transition: background-color 9999s ease-in-out 0s;
+    caret-color: #fff;
+  }
+  
+  /* Firefox autofill fix */
+  input:-moz-autofill,
+  input:-moz-autofill:focus {
+    box-shadow: 0 0 0px 1000px transparent inset !important;
+    -moz-text-fill-color: #fff !important;
+    background-color: transparent !important;
+    caret-color: #fff;
+    transition: background-color 9999s ease-in-out 0s;
+  }
+  
+
+  .toggle-password {
+    position: absolute;
+    right: 12px;
+    top: 50%;
+    transform: translateY(-50%);
+    cursor: pointer;
+    font-size: 22px;
+    color: #ffffff; /* pure white icon */
+    background: none; /* removes the box */
+    border: none;
+    padding: 0;
+    text-shadow: 0 0 6px rgba(255, 255, 255, 0.4); /* soft glow */
+    transition: color 0.3s ease, text-shadow 0.3s ease;
+  }
+  .toggle-password:hover {
+    color: #ffffff;
+    text-shadow: 0 0 8px rgba(255, 255, 255, 0.6);
+  }

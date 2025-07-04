@@ -1,5 +1,7 @@
 @import url('https://fonts.googleapis.com/css2?family=Poppins:wght@400;600&display=swap');
-
+*{
+    font-family: "Poppins",sans-serif;
+}
 
 body {
     font-family: 'Poppins', sans-serif;
@@ -287,4 +289,160 @@ tr:hover {
 .logout-link:hover {
     text-decoration: underline;
     color: #4b0082;
+}
+
+.background {
+    position: fixed;
+    width: 100%;
+    height: 100vh;
+    background: linear-gradient(135deg, #e0eafc, #cfdef3);
+    display: flex;
+    justify-content: center;
+    align-items: center;
+}
+
+.overlay {
+    position: absolute;
+    inset: 0;
+    backdrop-filter: blur(4px);
+    background: rgba(255, 255, 255, 0.5);
+}
+.login-card {
+    background: rgba(255, 255, 255, 0.25);
+    backdrop-filter: blur(15px);
+    border-radius: 20px;
+    padding: 40px 30px;
+    box-shadow: 0 12px 30px rgba(0, 0, 0, 0.25);
+    width: 90%;
+    max-width: 420px;
+    text-align: center;
+    color: #2c3e50;
+    margin: 40px auto;
+}
+
+.login-card h2 {
+    margin-bottom: 30px;
+    font-size: 24px;
+    font-weight: 600;
+}
+.input-box {
+    position: relative;
+    margin-bottom: 25px;
+}
+
+.input-box input {
+     width: 100%;
+    padding: 16px 14px;
+    border-radius: 10px;
+    border: 1px solid #ccc;
+    background: rgba(255, 255, 255, 0.9);
+    font-size: 16px;
+    color: #2c3e50;
+    outline: none; 
+  
+}
+
+.input-box label {
+    position: absolute;
+    top: 12px;
+    left: 16px;
+    color: #2c3e50; /* dark enough to be readable */
+    font-size: 14px;
+    pointer-events: none;
+    transition: all 0.3s ease;
+    opacity: 0.8;
+}
+/* Float the label when input is focused or has text */
+.input-box input:focus + label,
+.input-box input:not(:placeholder-shown) + label {
+    top: 6px;
+    font-size: 12px;
+    background: #eaf4ff;
+    padding: 0 6px;
+    border-radius: 4px;
+    opacity: 1;
+    color: #2980b9;
+}
+
+form input[type="text"],
+form input[type="password"] {
+    width: 100%;
+    font-family: "Poppins",sans-serif;
+    padding: 14px 16px;
+    margin: 15px 0;
+    border-radius: 10px;
+    border: 1.5px solid #bbb;
+    font-size: 16px;
+    background-color: rgba(255, 255, 255, 0.8);
+    color: #2c3e50;
+    outline: none;
+    box-sizing: border-box;
+    transition: all 0.3s ease;
+}
+form input::placeholder {
+    color: #333;
+    font-family: "Poppins",sans-serif;
+}
+
+form input:focus {
+    outline: none;
+    border-color: #3498db;
+    background-color: #fff;
+    box-shadow: 0 0 6px rgba(52, 152, 219, 0.4);
+}
+button {
+    /* width: 100%;
+    padding: 14px;
+    font-family: "Poppins",sans-serif;
+    background: #6c757d;
+    color: #fff;
+    font-weight: bold;
+    border: none;
+    box-shadow: 0 6px 18px rgba(0, 0, 0, 0.15);
+    border-radius: 10px;
+    margin-top: 10px;
+    cursor: pointer;
+    transition: 0.3s ease; */
+    background: #6c757d;
+    color: #fff;
+    font-weight: 600;
+    font-size: 16px;
+    padding: 14px 24px;
+    width: 100%;
+    border: none;
+    border-radius: 14px;
+    box-shadow: 0 8px 24px rgba(0, 0, 0, 0.1);
+    transition: all 0.3s ease;
+    backdrop-filter: blur(6px);
+    letter-spacing: 0.5px;
+}
+
+button:hover {
+    /* background: transparent; */
+    background: #495057; /* Slightly darker blue on hover */
+    transform: translateY(-2px);
+    box-shadow: 0 10px 28px rgba(0,0,0,0.15);
+}
+button:active{
+    transform: scale(0.98);
+    box-shadow: 0 4px 12px rgba(0,0,0,0.2);
+}
+
+.register {
+    margin-top: 20px;
+    font-size: 14px;
+    font-family: "Poppins",sans-serif;
+    color: #2c3e50;
+}
+
+.register a {
+    color: #2980b9;
+    font-weight: bold;
+    text-decoration: none;
+    font-family: "Poppins",sans-serif;
+}
+
+.register a:hover {
+    font-family: "Poppins",sans-serif;
+    text-decoration: underline;
 }

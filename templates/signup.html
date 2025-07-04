@@ -1,0 +1,40 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8" />
+    <title>Sign Up</title>
+    <link rel="stylesheet" href="{{ url_for('static', filename='style.css') }}">
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css" />
+</head>
+<body>
+    {% with messages = get_flashed_messages(with_categories=true) %}
+    {% if messages %}
+      <div class="flash-container">
+        {% for category, message in messages %}
+          <div class="flash-message {{ category }}">{{ message }}</div>
+        {% endfor %}
+      </div>
+    {% endif %}
+    {% endwith %}
+
+    <div class="background">
+        <div class="overlay"></div>
+        <div class="login-card">
+            <h2>📝 Sign Up</h2>
+            <form method="POST">
+                <div class="input-box">
+                    <input type="text" name="username" placeholder=" " autocomplete="off">
+                    <label>Choose a username</label>
+                </div>
+                <div class="input-box">
+                    <input type="password" name="password" placeholder="
+                    " required autocomplete="new-password">
+                    <label>Choose a password</label>
+                </div>
+                <button type="submit">Create Account</button>
+            </form>
+            <p class="register">Already have an account? <a href="{{ url_for('login') }}">Login</a></p>
+        </div>
+    </div>
+</body>
+</html>

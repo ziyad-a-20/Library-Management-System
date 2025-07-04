@@ -21,25 +21,46 @@ def login():
         username = request.form['username']
         password = request.form['password']
 
-        cursor = db.cursor(dictionary=True)  
         cursor.execute("SELECT * FROM users WHERE username=%s AND password=%s", (username, password))
         user = cursor.fetchone()
-        cursor.close()  
 
         if user:
             session['username'] = username
             session['role'] = user['role']
-            return redirect(url_for('home'))
-        elif username == 'reader' and password == 'reader123':
-            session['username'] = username
-            session['role'] = 'public'
+
+            # Update login time
+            cursor.execute("UPDATE users SET last_login = %s WHERE username = %s", (datetime.now(), username))
+            db.commit()
+
             return redirect(url_for('home'))
         else:
-            flash('Invalid credentials!', 'danger')
+            flash('Invalid username or password!', 'danger')
             return redirect(url_for('login'))
     return render_template('login.html')
 
 
+@app.route('/signup', methods=['GET', 'POST'])
+def signup():
+    if request.method == 'POST':
+        username = request.form['username']
+        password = request.form['password']
+        role = 'public'  # default role for new users
+
+        # Check if user already exists
+        cursor.execute("SELECT * FROM users WHERE username = %s", (username,))
+        existing_user = cursor.fetchone()
+
+        if existing_user:
+            flash("Username already taken. Please choose another.", "danger")
+            return redirect(url_for('signup'))
+
+        cursor.execute("INSERT INTO users (username, password, role) VALUES (%s, %s, %s)", 
+                       (username, password, role))
+        db.commit()
+        flash("Signup successful! Please login.", "success")
+        return redirect(url_for('login'))
+
+    return render_template('signup.html')
 
 
 # Home page – List all books
