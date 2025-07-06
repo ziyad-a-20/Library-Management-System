@@ -1,9 +1,11 @@
 <!DOCTYPE html>
 <html lang="en">
 <head>
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+
     <meta charset="UTF-8" />
     <title>Sign Up</title>
-    <link rel="stylesheet" href="{{ url_for('static', filename='style.css') }}">
+    <link rel="stylesheet" href="{{ url_for('static', filename='style.css') }}"> 
     <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css" />
 </head>
 <body>
@@ -20,7 +22,8 @@
     <div class="background">
         <div class="overlay"></div>
         <div class="login-card">
-            <h2>📝 Sign Up</h2>
+            <h2 style="display: flex; align-items: center; justify-content: center;">
+            <i style="font-size: 20px;" class="fas fa-user-plus">&nbsp; &nbsp;</i>Sign Up</h2>
             <form method="POST">
                 <div class="input-box">
                     <input type="text" name="username" placeholder=" " autocomplete="off">

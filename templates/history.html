@@ -1,7 +1,22 @@
+<!DOCTYPE html>
+
 <html>
 <head>
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>Borrow/Return History</title>
     <link rel="stylesheet" href="{{ url_for('static', filename='style.css') }}">
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
+<style>
+  .table-wrapper {
+  overflow-x: auto;
+  width: 100%;
+}
+
+table {
+  min-width: 600px; /* triggers horizontal scroll on small screens */
+}
+
+</style>
 </head>
 <body>
     {% with messages = get_flashed_messages(with_categories=true) %}
@@ -13,8 +28,12 @@
     </div>
   {% endif %}
 {% endwith %}
-    <h1>📖 Borrow & Return History</h1>
-    <h2>Borrowed Books</h2>
+<h1><i style="font-size: 25px; margin-right: 20px;" class="fa-solid fa-book-open"></i>Borrow & Return History</h1>
+
+<h2 style="display: flex; align-items: center; justify-content: center; gap: 10px;">
+    <i class="fas fa-arrow-right-from-bracket" style="font-size: 20px;"></i> Borrowed Books
+  </h2> 
+  <div class="table-wrapper"> 
     <table>
         <tr>
             <th>ID</th>
@@ -31,8 +50,11 @@
         </tr>
         {% endfor %}
     </table>
+  </div>
 
-    <h2>Returned Books</h2>
+    <h2 style="display: flex; align-items: center; justify-content: center; gap: 10px;">
+        <i class="fas fa-upload" style="font-size: 20px;"></i> Returned Books
+      </h2>
     <table>
         <tr>
             <th>ID</th>

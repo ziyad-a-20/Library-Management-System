@@ -1,8 +1,86 @@
+<!DOCTYPE html>
+
 <html>
 <head>
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>Library Home</title>
     <link rel="stylesheet" href="{{ url_for('static', filename='style.css') }}">
-    <style>.logout-container {
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.5.0/css/all.min.css">
+    <style>
+.search-form {
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    gap: 12px;
+    margin-bottom: 30px;
+    background: rgba(255, 255, 255, 0.1);
+    padding: 20px;
+    border-radius: 20px;
+    box-shadow: 0 10px 25px rgba(0,0,0,0.2);
+}
+
+
+.search-form input[type="text"] {
+    padding: 12px 20px;
+    height: 46px;
+    border: none;
+    border-radius: 25px;
+    width: 300px;
+    font-size: 16px;
+    outline: none;
+    background: #e8ecf1;
+    color: #333;
+    box-shadow: inset 0 2px 6px rgba(0,0,0,0.1);
+    line-height: 1.2;
+}
+.search-form input[type="text"]:hover {
+  background-color:#d7e4f0;
+  box-shadow:0 0 10px rgba(180,200,255,0.3);;
+  transition: background-color 0.3s ease;
+  color: #e0f0ff;
+  border: none;
+}
+.search-form input[type="text"]:focus {
+    background-color: #1e2a38;
+    box-shadow: 0 0 12px rgba(100, 180, 255, 0.45);
+    border: 1px solid rgba(100, 180, 255, 0.7);
+    color: #ffffff;
+    outline: none;
+}
+
+.search-form input::placeholder {
+    color: #888;
+}
+
+.search-form button {
+    gap: 12px;
+    margin-bottom: 15px ;
+    margin-left: 20px;
+    width: 46px;
+    height: 46px;
+    border: none;
+    border-radius: 50%;
+    /* background: rgba(255, 255, 255, 0.25); */
+    background: #6c757d;
+    display: flex;
+    backdrop-filter: blur(6px);
+    align-items: center;
+    justify-content: center;
+    cursor: pointer;
+    box-shadow: 0 2px 8px rgba(0,0,0,0.15);
+    /* box-shadow: inset 0 0 3px rgba(255, 255, 255, 0.3), 0 2px 8px rgba(0,0,0,0.15); */
+    transition: all 0.3s ease;
+}
+
+.search-form button:hover {
+    transform: scale(1.05);
+    background: rgba(255, 255, 255, 0.5);
+}
+.search-form button i {
+    font-size: 18px;
+    outline: none;
+}
+    .logout-container {
         position: fixed;
         top: 20px;
         right: 20px;
@@ -10,14 +88,14 @@
         padding: 10px 15px;
         border-radius: 12px;
         backdrop-filter: blur(10px);
-        color: #333333;
-        font-weight: 500;
+        color: #f2f2f2;
+        font-weight: 400;
         display: flex;
         align-items: center;
         box-shadow: 0 4px 12px rgba(0, 0, 0, 0.2);
         z-index: 999;
     }
-    
+
     .logout-btn {
         background-color: #e74c3c;
         color: white;
@@ -29,10 +107,11 @@
         font-weight: 600;
         transition: background 0.3s ease;
     }
-    
+
     .logout-btn:hover {
         background-color: #c0392b;
     }
+
     </style>
 </head>
 <body> 
@@ -44,32 +123,34 @@
         {% endfor %}
       </div>
     {% endif %}
-  {% endwith %}
-  
+    {% endwith %}
 
     {% if session.get('username') %}
-  <div class="logout-container">
-    👋 Hello, {{ session['username'] }}  |
-    <a href="{{ url_for('logout') }}" class="logout-btn">Logout</a>
-  </div>
-{% endif %}
+    <div class="logout-container">
+        <i class="fas fa-user-circle" style="margin-right: 6px;"></i> Hello, {{ session['username'] }} |
+        <a href="{{ url_for('logout') }}" class="logout-btn">
+            <i class="fas fa-sign-out-alt" style="margin-right: 6px;"></i> Logout
+        </a>
+    </div>    
+    {% endif %}
 
-      <div class="main-content">
+    <h1><i class="fa-solid fa-book-open"></i>&nbsp; &nbsp; Digital Book Shelf</h1>
 
-          
-          <h1>📚 Digital Book Shelf</h1>
     <div class="search-container">
         <form action="{{ url_for('home') }}" method="GET" class="search-form">
-          <input type="text" name="category" placeholder="Search by category..." value="{{ request.args.get('category', '') }}">
-          <button type="submit" aria-label="Search">
-            🔍
-          </button>
+            <input type="text" name="category" placeholder="Search by category..." value="{{ request.args.get('category', '') }}">
+            <button type="submit" aria-label="Search">
+                <!-- <i class="fa-solid fa-magnifying-glass"></i> -->
+                <i class="fas fa-search"></i>
+            </button>
         </form>
-      </div>      
-      {% if session.get('role') == 'admin' %}
-    <a href="{{ url_for('add') }}" class="btn">➕ Add Book</a>
-    <a href="{{ url_for('history') }}" class="btn">📖 View History</a>
+    </div>      
+
+    {% if session.get('role') == 'admin' %}
+    <a href="{{ url_for('add') }}" class="btn"><i class="fa-solid fa-plus"></i> Add Book</a>
+    <a href="{{ url_for('history') }}" class="btn"><i class="fa-solid fa-book"></i> View History</a>
     {% endif %}
+
     <table>
         <tr>
             <th>ID</th>
@@ -88,19 +169,18 @@
             <td class="{{ 'available' if book.status == 'Available' else 'not-available' }}">{{ book.status }}</td>
             <td>
                 {% if session.get('role') == 'admin' %}
-                <a href="{{ url_for('update', id=book.id) }}" class="btn">✏️ Edit</a>
-                <a href="{{ url_for('delete', id=book.id) }}" class="btn delete">🗑️ Delete</a>
-                {% elif session.get('role') =='public' %}
-                {% if book.status == 'Available' %}
-                    <a href="{{ url_for('borrow', id=book.id) }}" class="btn">📥 Borrow</a>
+                <a href="{{ url_for('update', id=book.id) }}" class="btn"><i class="fa-solid fa-pen-to-square"></i> Edit</a>
+                <a href="{{ url_for('delete', id=book.id) }}" class="btn delete"><i class="fa-solid fa-trash"></i> Delete</a>
+                {% elif session.get('role') == 'public' %}
+                    {% if book.status == 'Available' %}
+                        <a href="{{ url_for('borrow', id=book.id) }}" class="btn"><i class="fa-solid fa-arrow-down"></i> Borrow</a>
                     {% else %}
-                    <a href="{{ url_for('return_book', id=book.id) }}" class="btn">📤 Return</a>
-                {% endif %}
+                        <a href="{{ url_for('return_book', id=book.id) }}" class="btn"><i class="fa-solid fa-arrow-up"></i> Return</a>
+                    {% endif %}
                 {% endif %}
             </td>
         </tr>
         {% endfor %}
     </table>
-</div>
 </body>
 </html>

@@ -1,8 +1,15 @@
+<!DOCTYPE html>
 <html>
 <head>
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>Add Book</title>
     <link rel="stylesheet" href="{{ url_for('static', filename='style.css') }}">
 </head>
+<style>
+ .form-wrapper h1{
+    color: #f2f2f2;
+  }
+</style>
 <body>
     {% with messages = get_flashed_messages(with_categories=true) %}
   {% if messages %}
@@ -13,6 +20,7 @@
     </div>
   {% endif %}
 {% endwith %}
+<div class="form-wrapper">
     <h1>➕ Add New Book</h1>
     <form method="POST">
         <input type="text" name="author" placeholder="Author Name" required>
@@ -21,5 +29,6 @@
         <button type="submit" class="btn">Add Book</button>
         <a href="{{ url_for('home') }}" class="btn back">← Back</a>
     </form>
+  </div>
 </body>
 </html>

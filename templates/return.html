@@ -1,8 +1,23 @@
+<!DOCTYPE html>
 <html>
 <head>
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+
     <title>Return Book</title>
     <link rel="stylesheet" href="{{ url_for('static', filename='style.css') }}">
 </head>
+<style>
+  p{
+    color: #dcdcdc;
+    font-size: 16px;
+    font-weight:600;
+    margin-top: 20px;
+  }
+p strong{
+  color: #00bcd4;
+  font-weight: 600;
+}
+</style>
 <body>
     {% with messages = get_flashed_messages(with_categories=true) %}
   {% if messages %}

@@ -203,3 +203,60 @@ input {
     color: #ffffff;
     text-shadow: 0 0 8px rgba(255, 255, 255, 0.6);
   }
+  /* === Responsive Enhancements for login.css === */
+@media (max-width: 768px) {
+    .login-card {
+      width: 90%;
+      padding: 30px 20px;
+    }
+  
+    .login-card h2 {
+      font-size: 22px;
+      margin-bottom: 25px;
+    }
+  
+    .input-box input {
+      padding: 12px;
+      font-size: 14px;
+    }
+  
+    .options {
+      flex-direction: column;
+      gap: 10px;
+      font-size: 13px;
+      align-items: flex-start;
+    }
+  
+    button {
+      padding: 12px;
+      font-size: 15px;
+    }
+  
+    .register {
+      font-size: 13px;
+    }
+  
+    .toggle-password {
+      font-size: 18px;
+      right: 10px;
+    }
+  }
+  
+  @media (max-width: 480px) {
+    .login-card h2 {
+      font-size: 20px;
+    }
+  
+    .input-box input {
+      font-size: 13px;
+    }
+  
+    .register {
+      font-size: 12px;
+    }
+  
+    .options {
+      font-size: 12px;
+    }
+  }
+  
