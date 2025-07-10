@@ -4,6 +4,26 @@
   <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>Borrow Book</title>
     <link rel="stylesheet" href="{{ url_for('static', filename='style.css') }}">
+    <link href="https://fonts.googleapis.com/css2?family=Material+Symbols+Outlined" rel="stylesheet" />
+    <style>
+  p{
+    color: #dcdcdc;
+    font-size: 16px;
+    font-weight:600;
+    margin-top: 20px;
+  }
+p strong{
+  color: #00bcd4;
+  font-weight: 600;
+}
+.material-symbols-outlined {
+      font-variation-settings: 'FILL' 1, 'wght' 600, 'GRAD' 0, 'opsz' 24;
+      font-size: 32px;
+      /* color: #4aa8ff; */
+      vertical-align: middle;
+      margin-right: 10px;
+    }
+</style>
 </head>
 <body>
     {% with messages = get_flashed_messages(with_categories=true) %}
@@ -15,9 +35,9 @@
     </div>
   {% endif %}
 {% endwith %}
-    <h1>📥 Borrow Book</h1>
-    <p><strong>Book:</strong> {{ book.book_name }} by {{ book.author_name }}</p>
-    <form method="POST">
+<h1 style="color: #ffffff; text-shadow: 1px 1px 4px rgba(0, 0, 0, 0.6);"><span class="material-symbols-outlined">library_add</span> Borrow Book</h1>
+<p><strong>Book:</strong> {{ book.book_name }} by {{ book.author_name }}</p>
+   <form method="POST">
         <input type="text" name="name" placeholder="Your Name" required>
         <button type="submit" class="btn">Borrow</button>
         <a href="{{ url_for('home') }}" class="btn back">← Back</a>
