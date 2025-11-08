@@ -5,6 +5,7 @@
   <title>Add Book</title>
   <link rel="stylesheet" href="{{ url_for('static', filename='style.css') }}">
   <link href="https://fonts.googleapis.com/css2?family=Material+Symbols+Outlined" rel="stylesheet" />
+  <script src="{{ url_for('static', filename='flash.js') }}" defer></script>
   <style>
     .form-wrapper h1 {
       color: #f2f2f2;
@@ -16,6 +17,34 @@
       font-size: 30px;
       margin-right: 5px;
       vertical-align: middle;
+    }
+    .form-group {
+      margin-bottom: 15px;
+    }
+
+    label {
+      display: block;
+      margin-bottom: 6px;
+      color: #e5e5e5;
+      font-weight: 500;
+    }
+    input {
+      width: 100%;
+      padding: 8px 10px;
+      border-radius: 6px;
+      border: none;
+      background: #1f1f1f;
+      color: white;
+      font-size: 15px;
+    }
+
+    input:focus {
+      outline: 2px solid #00bcd4;
+      background-color: #2a2a2a;
+    }
+
+    .btn, .btn.back {
+      margin-top: 10px;
     }
   </style>
 </head>
@@ -31,11 +60,26 @@
   {% endwith %}
 
   <div class="form-wrapper">
-    <h1><span class="material-symbols-outlined">add_circle</span> Add New Book</h1>
+    <h1><span class="material-symbols-outlined">add_circle</span>
+       Add New Book
+    </h1>
+
     <form method="POST">
-      <input type="text" name="author" placeholder="Author Name" required>
-      <input type="text" name="name" placeholder="Book Name" required>
-      <input type="text" name="category" placeholder="Category" required>
+      <div class="form-group">
+        <label for="author">Author Name</label>
+        <input type="text" id="author" name="author" placeholder="Enter Author Name" required>
+      </div>
+
+      <div class="form-group">
+        <label for="name">Book Name</label>
+        <input type="text" id="name" name="name" placeholder="Enter Book Name" required>
+      </div>
+
+      <div class="form-group">
+        <label for="category">Category</label>
+        <input type="text" id="category" name="category" placeholder="Enter Category" required>
+      </div>
+
       <button type="submit" class="btn">Add Book</button>
       <a href="{{ url_for('home') }}" class="btn back">← Back</a>
     </form>

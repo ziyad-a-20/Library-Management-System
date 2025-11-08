@@ -2,13 +2,14 @@
 <html lang="en">
 <head>
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-
     <meta charset="UTF-8" />
     <title>Sign Up</title>
     <link rel="stylesheet" href="{{ url_for('static', filename='style.css') }}"> 
     <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css" />
+    <script src="{{ url_for('static', filename='flash.js') }}" defer></script>
 </head>
 <body>
+
     {% with messages = get_flashed_messages(with_categories=true) %}
     {% if messages %}
       <div class="flash-container">
@@ -23,16 +24,18 @@
         <div class="overlay"></div>
         <div class="login-card">
             <h2 style="display: flex; align-items: center; justify-content: center;">
-            <i style="font-size: 20px;" class="fas fa-user-plus">&nbsp; &nbsp;</i>Sign Up</h2>
+                <i style="font-size: 20px;" class="fas fa-user-plus">&nbsp; &nbsp;</i>Sign Up
+            </h2>
+
             <form method="POST">
                 <div class="input-box">
-                    <input type="text" name="username" placeholder=" " autocomplete="off">
-                    <label>Choose a username</label>
+                    <input type="text" id="username" name="username" autocomplete="off" required>
+                    <label for="username">Choose a Username</label>
                 </div>
+
                 <div class="input-box">
-                    <input type="password" name="password" placeholder="
-                    " required autocomplete="new-password">
-                    <label>Choose a password</label>
+                    <input type="password" id="password" name="password" autocomplete="new-password" required>
+                    <label for="password">Choose a Password</label>
                 </div>
                 <button type="submit">Create Account</button>
             </form>

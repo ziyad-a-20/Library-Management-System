@@ -20,31 +20,37 @@ def login():
     if request.method == 'POST':
         username = request.form['username']
         password = request.form['password']
-
+        
         cursor.execute("SELECT * FROM users WHERE username=%s AND password=%s", (username, password))
         user = cursor.fetchone()
 
         if user:
             session['username'] = username
             session['role'] = user['role']
-
             # Update login time
             cursor.execute("UPDATE users SET last_login = %s WHERE username = %s", (datetime.now(), username))
             db.commit()
-
+            
+            flash(f"Welcome back, {username}!","success")
             return redirect(url_for('home'))
         else:
             flash('Invalid username or password!', 'danger')
+    
             return redirect(url_for('login'))
     return render_template('login.html')
 
 
+# Signup
 @app.route('/signup', methods=['GET', 'POST'])
 def signup():
     if request.method == 'POST':
         username = request.form['username']
         password = request.form['password']
-        role = 'public'  # default role for new users
+        role = 'public'
+        
+        if not username or not password:
+            flash("All fields are required!","danger")
+            return redirect(url_for('signup'))
 
         # Check if user already exists
         cursor.execute("SELECT * FROM users WHERE username = %s", (username,))
@@ -82,6 +88,10 @@ def home():
 # Add new book
 @app.route('/add', methods=['GET', 'POST'])
 def add():
+    if 'username' not in session or session.get('role') != 'admin':
+        flash("Access denied. Admins only.","danger")
+        return redirect(url_for('home'))
+    
     if request.method == 'POST':
         author = request.form['author']
         name = request.form['name']
@@ -95,6 +105,10 @@ def add():
 # Update book
 @app.route('/update/<int:id>', methods=['GET', 'POST'])
 def update(id):
+    if 'username' not in session or session.get('role') != 'admin':
+        flash("Access denied. Admins only.", "danger")
+        return redirect(url_for('home'))
+    
     if request.method == 'POST':
         author = request.form['author']
         name = request.form['name']
@@ -102,6 +116,7 @@ def update(id):
         cursor.execute("UPDATE books SET author_name=%s, book_name=%s, category=%s WHERE id=%s",
                        (author, name, category, id))
         db.commit()
+        flash("Book updated successfully!","success")
         return redirect(url_for('home'))
     cursor.execute("SELECT * FROM books WHERE id=%s", (id,))
     book = cursor.fetchone()
@@ -110,6 +125,10 @@ def update(id):
 # Delete book
 @app.route('/delete/<int:id>')
 def delete(id):
+    if 'username' not in session or session.get('role') != 'admin':
+        flash("Access denied. Admins only.", "danger")
+        return redirect(url_for('home'))
+    
     cursor.execute("DELETE FROM borrowed_books WHERE book_id = %s", (id,))
     cursor.execute("DELETE FROM returned_books WHERE book_id = %s", (id,))
     cursor.execute("DELETE FROM books WHERE id = %s", (id,))
@@ -121,12 +140,30 @@ def delete(id):
 # Borrow book
 @app.route('/borrow/<int:id>', methods=['GET', 'POST'])
 def borrow(id):
+    if 'username' not in session:
+        return redirect(url_for('login'))
+    
+    # fetch book info before POST
+    cursor.execute("SELECT * FROM books WHERE id=%s",(id,))
+    book = cursor.fetchone()
+    
+    if not book:
+        flash("Book bot found","danger")
+        return redirect(url_for('home'))
+    # Check availability
+    if book['status'] == "Not Available":
+        flash("Sorry, this book is already borrowed by someone else.","warning")
+        return redirect(url_for('home'))
+    
+    
     if request.method == 'POST':
-        name = request.form['name']
+        name = request.form['username']
         cursor.execute("INSERT INTO borrowed_books (book_id, borrower_name) VALUES (%s, %s)", (id, name))
         cursor.execute("UPDATE books SET status='Not Available' WHERE id=%s", (id,))
         db.commit()
+        flash("Book borrowed successfully!","success")
         return redirect(url_for('home'))
+    
     cursor.execute("SELECT * FROM books WHERE id=%s", (id,))
     book = cursor.fetchone()
     return render_template('borrow.html', book=book)
@@ -134,11 +171,15 @@ def borrow(id):
 # Return book
 @app.route('/return/<int:id>', methods=['GET', 'POST'])
 def return_book(id):
+    if 'username' not in session:
+        return redirect(url_for("login"))
+    
     if request.method == 'POST':
-        name = request.form['name']
+        name = request.form['username']
         cursor.execute("INSERT INTO returned_books (book_id, returner_name) VALUES (%s, %s)", (id, name))
         cursor.execute("UPDATE books SET status='Available' WHERE id=%s", (id,))
         db.commit()
+        flash("Book returned successfully!","success")
         return redirect(url_for('home'))
     cursor.execute("SELECT * FROM books WHERE id=%s", (id,))
     book = cursor.fetchone()
@@ -147,29 +188,65 @@ def return_book(id):
 # View borrow and return history
 @app.route('/history')
 def history():
-    cursor.execute("""
+    if 'username' not in session:
+        return redirect(url_for("login"))
+    
+    username = session['username']
+    role = session.get('role','public')
+    
+    if role == 'admin':
+        cursor.execute("""
         SELECT bb.id, b.book_name, bb.borrower_name, bb.borrow_date
         FROM borrowed_books bb
         JOIN books b ON bb.book_id = b.id
         ORDER BY bb.borrow_date DESC
     """)
+    else:
+       cursor.execute("""
+            SELECT bb.id, b.book_name, bb.borrower_name, bb.borrow_date
+            FROM borrowed_books bb
+            JOIN books b ON bb.book_id = b.id
+            WHERE bb.borrower_name = %s
+            ORDER BY bb.borrow_date DESC
+        """, (username,))
     borrowed = cursor.fetchall()
+    
+    
+    if role == 'admin':
+        cursor.execute("""
+            SELECT rb.id, b.book_name, rb.returner_name, rb.return_date
+            FROM returned_books rb
+            JOIN books b ON rb.book_id = b.id
+            ORDER BY rb.return_date DESC
+        """)
+    else:
+        cursor.execute("""
+            SELECT rb.id, b.book_name, rb.returner_name, rb.return_date
+            FROM returned_books rb
+            JOIN books b ON rb.book_id = b.id
+            WHERE rb.returner_name = %s
+            ORDER BY rb.return_date DESC
+        """, (username,))
 
-    cursor.execute("""
-        SELECT rb.id, b.book_name, rb.returner_name, rb.return_date
-        FROM returned_books rb
-        JOIN books b ON rb.book_id = b.id
-        ORDER BY rb.return_date DESC
-    """)
     returned = cursor.fetchall()
+    
+    # Format dates for clean display
+    for row in borrowed:
+        if row['borrow_date']:
+            row['borrow_date'] = row['borrow_date'].strftime("%Y-%m-%d %H:%M")
+
+    for row in returned:
+        if row['return_date']:
+            row['return_date'] = row['return_date'].strftime("%Y-%m-%d %H:%M")
 
     return render_template('history.html', borrowed=borrowed, returned=returned)
 
 #logout
-
 @app.route('/logout')
 def logout():
     session.pop('username', None)
+    session.pop('role',None)
+    flash("Logged out successfully.","info")
     return redirect(url_for('login'))
 
 

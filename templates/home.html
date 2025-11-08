@@ -4,14 +4,9 @@
   <head>
     <meta name="viewport" content="width=device-width, initial-scale=1.0" />
     <title>Library Home</title>
-    <link
-      rel="stylesheet"
-      href="{{ url_for('static', filename='style.css') }}"
-    />
-    <link
-      rel="stylesheet"
-      href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.5.0/css/all.min.css"
-    />
+    <link rel="stylesheet" href="{{ url_for('static', filename='style.css') }}"/>
+    <script src="{{ url_for('static', filename='flash.js') }}" defer></script> 
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.5.0/css/all.min.css"/>
     <style>
       .search-form {
         display: flex;
@@ -176,26 +171,20 @@
 
     <div class="search-container">
       <form action="{{ url_for('home') }}" method="GET" class="search-form">
-        <input
-          type="text"
-          name="category"
-          placeholder="Search by category..."
-          value="{{ request.args.get('category', '') }}"
-        />
+        <input type="text" name="category" placeholder="Search by category..." value="{{ request.args.get('category', '') }}"/>
         <button type="submit" aria-label="Search">
-          <!-- <i class="fa-solid fa-magnifying-glass"></i> -->
           <i class="fas fa-search"></i>
         </button>
       </form>
     </div>
 
     {% if session.get('role') == 'admin' %}
-    <a href="{{ url_for('add') }}" class="btn"
-      ><i class="fa-solid fa-plus"></i> Add Book</a
-    >
-    <a href="{{ url_for('history') }}" class="btn"
-      ><i class="fa-solid fa-book"></i> View History</a
-    >
+    <a href="{{ url_for('add') }}" class="btn">
+      <i class="fa-solid fa-plus"></i> Add Book
+    </a>
+    <a href="{{ url_for('history') }}" class="btn">
+      <i class="fa-solid fa-book"></i> View History
+    </a>
     {% endif %}
 
     <table>
@@ -213,28 +202,26 @@
         <td>{{ book.author_name }}</td>
         <td>{{ book.book_name }}</td>
         <td>{{ book.category }}</td>
-        <td
-          class="{{ 'available' if book.status == 'Available' else 'not-available' }}"
-        >
+        <td class="{{ 'available' if book.status == 'Available' else 'not-available' }}">
           {{ book.status }}
         </td>
         <td>
           {% if session.get('role') == 'admin' %}
-          <a href="{{ url_for('update', id=book.id) }}" class="btn"
-            ><i class="fa-solid fa-pen-to-square"></i> Edit</a
-          >
-          <a href="{{ url_for('delete', id=book.id) }}" class="btn delete"
-            ><i class="fa-solid fa-trash"></i> Delete</a
-          >
-          {% elif session.get('role') == 'public' %} {% if book.status ==
-          'Available' %}
-          <a href="{{ url_for('borrow', id=book.id) }}" class="btn"
-            ><i class="fa-solid fa-arrow-down"></i> Borrow</a
-          >
+          <a href="{{ url_for('update', id=book.id) }}" class="btn">
+            <i class="fa-solid fa-pen-to-square"></i> Edit
+          </a>
+          <a href="{{ url_for('delete', id=book.id) }}" class="btn delete">
+            <i class="fa-solid fa-trash"></i> Delete
+          </a>
+          {% elif session.get('role') == 'public' %} 
+          {% if book.status == 'Available' %}
+          <a href="{{ url_for('borrow', id=book.id) }}" class="btn">
+            <i class="fa-solid fa-arrow-down"></i> Borrow
+          </a>
           {% else %}
-          <a href="{{ url_for('return_book', id=book.id) }}" class="btn"
-            ><i class="fa-solid fa-arrow-up"></i> Return</a
-          >
+          <a href="{{ url_for('return_book', id=book.id) }}" class="btn">
+            <i class="fa-solid fa-arrow-up"></i> Return
+          </a>
           {% endif %} {% endif %}
         </td>
       </tr>
@@ -247,6 +234,5 @@
   </tr>
   {% endif %}
 </table>
-    </table>
-  </body>
+</body>
 </html>
